@@ -1,0 +1,21 @@
+---
+- hosts: sns06
+  become: True
+  remote_user: viewadmin 
+  become_method: sudo 
+  become_user: root
+  tasks:
+  - name: Create user named usuario
+    user: name=usuario groups=docker home=/home/usuario
+  - name: Crea directorio conf docker
+    file: path=/home/usuario/.docker state=directory owner=usuario group=usuario mode='0700'
+  - name: crea carpeta certificados
+    file: path=/home/usuario/.ssh state=directory owner=usuario group=usuario mode='0700' 
+  - name: copia certificado publico
+    copy: src=usuario.pub dest=/home/usuario/.ssh/usuario.pub owner=usuario mode='0600'
+  - name: copia fichero conf docker
+    copy: src=/home/viewadmin/.docker/config.json dest=/home/usuario/.docker/config.json owner=usuario group=usuario
+  - name: copia docker-compose.yml
+    copy: src=docker-compose.yml dest=/home/usuario/
+  - name: Agrega la llave publica
+    authorized_key: user=usuario  state=present  key="{{lookup('file', 'usuario.pub') }}"
