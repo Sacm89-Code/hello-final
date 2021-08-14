@@ -6,7 +6,7 @@ pipeline {
         timestamps()
     }
     tools {
-        jdk 'JDK16'
+        jdk 'JDK11'
     }
     stages {
         stage('Build') {
@@ -20,4 +20,4 @@ pipeline {
             }
         }
     }
-}
+} 
