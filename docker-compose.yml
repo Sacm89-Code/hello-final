@@ -1,7 +1,7 @@
-version: "3.0"
+version: '3.0'
 services:
   hello-final:
     image: hello-final:latest
     build: .
     ports:
-      - "8081:8081"
+      - "6969:8080" 
